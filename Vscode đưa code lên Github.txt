@@ -1,0 +1,46 @@
+PS D:\Fullstack Developer> git init
+Initialized empty Git repository in D:/Fullstack Developer/.git/
+PS D:\Fullstack Developer> git add .
+PS D:\Fullstack Developer> git init
+Initialized empty Git repository in D:/Fullstack Developer/.git/
+PS D:\Fullstack Developer> git add .
+warning: in the working copy of 'HTML/IMG/icon-clock.svg', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HTML/IMG/icon-gift.svg', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'HTML/IMG/icon-like.svg', LF will be replaced by CRLF the next time Git touches it
+PS D:\Fullstack Developer> git conmit -m "first conmit minhthuanHTML"
+git: 'conmit' is not a git command. See 'git --help'.
+
+The most similar command is
+        commit
+PS D:\Fullstack Developer> git commit -m "first commit minhthuanHTML"
+[master (root-commit) 669add1] first commit minhthuanHTML
+ 15 files changed, 622 insertions(+)
+ create mode 100644 .vscode/settings.json
+ create mode 100644 HTML/HTML/Bai7.html
+ create mode 100644 HTML/HTML/TuBai10.html
+ create mode 100644 HTML/HTML/index.html
+ create mode 100644 HTML/HTML/style.css
+ create mode 100644 HTML/HTML/w3schools/BasicExamples.html
+g
+ create mode 100644 HTML/IMG/icon-gift.svg
+ create mode 100644 HTML/IMG/icon-like.svg
+ create mode 100644 HTML/SCC/Tubai10.css
+ create mode 100644 HTML/SCC/Tubai10.scss
+ create mode 100644 HTML/SCC/style.css
+PS D:\Fullstack Developer> git remote add origin https://github.com/thuanlu/Fullstack-Developer.git
+PS D:\Fullstack Developer> git push
+
+
+
+PS D:\Fullstack Developer> git push origin master
+info: please complete authentication in your browser...
+Enumerating objects: 23, done.
+Counting objects: 100% (23/23), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (21/21), done.
+Writing objects: 100% (23/23), 225.66 KiB | 11.88 MiB/s, done.
+Total 23 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), done.
+To https://github.com/thuanlu/Fullstack-Developer.git
+ * [new branch]      master -> master
+PS D:\Fullstack Developer>
