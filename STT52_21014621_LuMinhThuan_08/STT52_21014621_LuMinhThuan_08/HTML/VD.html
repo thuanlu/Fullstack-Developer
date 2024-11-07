@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <title>Trang Web Đặt Hoa</title>
+</head>
+
+<body>
+    <div class="container border border-2 border-success">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link text-success" href="#">TRANG CHU</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-primary" href="#" id="btnDatMuaHoa">ĐẶT MUA HOA</a>
+                </li>
+                <li class="nav-item text-primary">
+                    <a class="nav-link" href="#">CAY XANH VAN PHONG</a>
+                </li>
+                <li class="nav-item text-primary">
+                    <a class="nav-link" href="#">TIN TUC</a>
+                </li>
+            </ul>
+            <div class="row">
+                <img src="../IMG/thiet-ke-banner-dep-minh-duong-ads-17.jpg" alt="#">
+            </div>
+        </nav>
+
+        <!-- Layout with left, main, right -->
+        <div class="mt-1">
+            <div class="row d-flex align-items-stretch">
+                <div class="col-md-2 d-flex">
+                    <img src="../IMG/chau1.jfif" alt="#" class="img-fluid align-self-stretch w-100">
+                </div>
+
+                <div class="col-md-8">
+                    <div id="mainContent" class="bg-white p-3">Main Content</div>
+                </div>
+
+                <div class="col-md-2 d-flex">
+                    <img src="../IMG/hinh2.webp" alt="#" class="img-fluid align-self-stretch w-100">
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="container mt-4">
+            <div class="bg-light text-center p-3">
+                <p>MSSV: 21014621 - Lớp: DHHTTT17A - Họ Và Tên: Lu Minh Thuan</p>
+            </div>
+        </footer>
+
+        <!-- Modal Đặt Mua Hoa -->
+        <div class="modal fade" id="datMuaHoaModal" tabindex="-1" aria-labelledby="datMuaHoaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="datMuaHoaLabel">Thông Tin Đặt Hàng Nhanh</h5>
+                        <!-- Dấu x để tắt modal -->
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+
+                    </div>
+                    <div class="modal-body">
+                        <form id="orderForm">
+                            <div class="form-group">
+                                <label for="hoTen">Họ Và Tên</label>
+                                <input type="text" class="form-control" id="hoTen" placeholder="Nhập họ và tên">
+                                <small id="errorHoTen" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="soDienThoai">Số Điện Thoại</label>
+                                <input type="text" class="form-control" id="soDienThoai" placeholder="0xxxxxxxxx">
+                                <small id="errorSoDienThoai" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="ngayDat">Ngày Đặt</label>
+                                <input type="date" class="form-control" id="ngayDat">
+                                <small id="errorNgayDat" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Của Bạn</label>
+                                <input type="email" class="form-control" id="email" placeholder="name_email@gmail.com">
+                                <small id="errorEmail" class="form-text text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="anhDaiDien">Ảnh Đại Diện</label>
+                                <input type="file" class="form-control-file" id="anhDaiDien" accept="image/*">
+                                <img id="previewAnhDaiDien" src="#" alt="Ảnh đại diện" class="img-fluid mt-2 d-none">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="submitOrder()" data-dismiss="modal">Đặt Hàng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../JS/jquery-3.7.1.js"></script>
+    <!-- <script src="../JS/popper.min.js"></script> -->
+    <script src="../JS/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btnDatMuaHoa').click(function() {
+                $('#datMuaHoaModal').modal('show');
+            });
+
+            $('#anhDaiDien').change(function(event) {
+                const input = event.target;
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#previewAnhDaiDien').attr('src', e.target.result).removeClass('d-none');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+            });
+        });
+
+        function submitOrder() {
+    let isValid = true;
+
+    // Validate Họ Và Tên
+    const hoTen = document.getElementById('hoTen').value;
+    const hoTenRegex = /^([A-Z][a-z]*)(\s[A-Z][a-z]*)+$/;
+    if (!hoTen || !hoTenRegex.test(hoTen)) {
+        isValid = false;
+        document.getElementById('errorHoTen').innerText = 'Họ và tên phải có ít nhất 2 từ và mỗi từ bắt đầu bằng chữ hoa.';
+    } else {
+        document.getElementById('errorHoTen').innerText = '';
+    }
+
+    // Validate Số Điện Thoại
+    const soDienThoai = document.getElementById('soDienThoai').value;
+    const soDienThoaiRegex = /^0\d{9}$/;
+    if (!soDienThoai || !soDienThoaiRegex.test(soDienThoai)) {
+        isValid = false;
+        document.getElementById('errorSoDienThoai').innerText = 'Số điện thoại phải theo định dạng 0XXXXXXXXX.';
+    } else {
+        document.getElementById('errorSoDienThoai').innerText = '';
+    }
+
+    // Validate Ngày Đặt
+    const ngayDat = document.getElementById('ngayDat').value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (!ngayDat || ngayDat <= currentDate) {
+        isValid = false;
+        document.getElementById('errorNgayDat').innerText = 'Ngày đặt phải sau ngày hiện tại.';
+    } else {
+        document.getElementById('errorNgayDat').innerText = '';
+    }
+
+    // Validate Email
+    const email = document.getElementById('email').value;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!email || !emailRegex.test(email)) {
+        isValid = false;
+        document.getElementById('errorEmail').innerText = 'Email không đúng định dạng.';
+    } else {
+        document.getElementById('errorEmail').innerText = '';
+    }
+
+    if (!isValid) {
+        return;
+    }
+
+    const anhDaiDienSrc = document.getElementById('previewAnhDaiDien').src;
+
+    const mainContent = document.getElementById('mainContent');
+    mainContent.innerHTML = `
+        <div class="col-md-12 d-flex flex-column">
+            <h4 class="text-center">DANH SÁCH THÔNG TIN ĐƠN ĐẶT HÀNG NHANH</h4>
+            <div class="row">
+                <div class="row w-100">
+                    <div class="col-1">
+                        <p>STT</p>
+                    </div>
+                    <div class="col-2">
+                        <p>HỌ VÀ TÊN</p>
+                    </div>
+                    <div class="col-2">
+                        <p>SỐ ĐIỆN THOẠI</p>
+                    </div>
+                    <div class="col-2">
+                        <p>ĐẶT NGÀY</p>
+                    </div>
+                    <div class="col-3">
+                        <p>EMAIL CỦA BẠN</p>
+                    </div>
+                    <div class="col-2">
+                        <p>ẢNH ĐẠI DIỆN</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row w-100 bg-light">
+                    <div class="col-1">
+                        <p>1</p>
+                    </div>
+                    <div class="col-2">
+                        <p>${hoTen}</p>
+                    </div>
+                    <div class="col-2">
+                        <p>${soDienThoai}</p>
+                    </div>
+                    <div class="col-2">
+                        <p>${ngayDat}</p>
+                    </div>
+                    <div class="col-3">
+                        <p>${email}</p>
+                    </div>
+                    <div class="col-2">
+                        <img src="${anhDaiDienSrc}" alt="Ảnh đại diện" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Đóng modal sau khi đặt hàng thành công
+    $('#datMuaHoaModal').modal('hide');
+}
+    </script>
+</body>
+
+</html>
