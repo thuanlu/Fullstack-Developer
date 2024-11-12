@@ -1,0 +1,215 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On kiem tra 1</title>
+    <link rel="stylesheet" href="../CSS/bootstrap.min.css">
+    <script src="../JS/jquery-3.7.1.js"></script>
+    <script src="../JS/bootstrap.min.js"></script>
+</head>
+
+<script>
+    $(document).ready(function () {
+        $('#btnDatMuaHoa').click(function () {
+            $('#modalDatMuaHoa').modal('show');
+        });
+    });
+
+    function datHang() {
+        let isValid = true;
+
+        //kiem tra ho va ten
+        const hoTen = $('#hoTen').val();
+        const hoTenRegex = /^([A-Z][a-z]*)(\s[A-Z][a-z]*)+$/;
+        if (!hoTen || !hoTenRegex.test(hoTen)) {
+            isValid = false;
+            $('#errorHoTen').text('Họ và tên phải có ít nhất 2 chữ và mỗi chữ bắt đầu bằng chữ in hoa.');
+        } else {
+            $('#errorHoTen').text('');
+        }
+
+        //kiem tra so dien thoai
+        const soDienThoai = $('#soDienThoai').val();
+        const soDienThoaiRegex = /^0\d{9}$/;
+        if (!soDienThoai || !soDienThoaiRegex.test(soDienThoai)) {
+            isValid = false;
+            $('#errorSoDienThoai').text('So dien thoan phai 0XXXXXXXXX');
+        } else {
+            $('#errorSoDienThoai').text('');
+        }
+
+        //kiem tra ngay thang nam dat hang
+        const ngayDat = $('#ngayDat').val();
+        const currentDate = new Date().toLocaleDateString('en-CA');
+        if (!ngayDat || ngayDat <= currentDate) {
+            isValid = false;
+            $('#errorNgayDat').text('ngay dat phai la ngay tuong lai.');
+        } else {
+            $('#errorNgayDat').text('');
+        }
+
+        //kiem tra email
+        const email = $('#email').val();
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        
+        if (!email || !emailRegex.test(email)) {
+            isValid = false;
+            $('#errorEmail').text('email phai dung dinh dang');
+        } else {
+            $('#errorEmail').text('');
+        }
+
+        //kiem tra anh dai dien
+        const anhDaiDien = $('#anhDaiDien').prop('files')[0];
+        if (!anhDaiDien) {
+            isValid = false;
+            $('#errorAnhDaiDien').text('Vui lòng tải ảnh đại diện lên.');
+        } else {
+            $('#errorAnhDaiDien').text('');
+        }
+
+        if (!isValid)
+            return;
+
+        const anhDaiDienName = anhDaiDien.name;
+        
+        const mainContent = document.getElementById('mainContent');
+        mainContent.innerHTML = `
+                <div class="col-md-12 d-flex flex-column text-center m-2">
+                    <h4 class="text-center">DANH SÁCH THÔNG TIN ĐƠN ĐẶT HÀNG NHANH</h4>
+                    <div class="row">
+                        <div class="row w-100">
+                            <div class="col-1">
+                                <p>STT</p>
+                            </div>
+                            <div class="col-2">
+                                <p>HỌ VÀ TÊN</p>
+                            </div>
+                            <div class="col-2">
+                                <p>SỐ ĐIỆN THOẠI</p>
+                            </div>
+                            <div class="col-2">
+                                <p>ĐẶT NGÀY</p>
+                            </div>
+                            <div class="col-3">
+                                <p>EMAIL CỦA BẠN</p>
+                            </div>
+                            <div class="col-2">
+                                <p>ẢNH ĐẠI DIỆN</p>
+                            </div>
+                        </div>
+                        <div class="row w-100 bg-light">
+                            <div class="col-1">
+                                <p>1</p>
+                            </div>
+                            <div class="col-2">
+                                <p>${hoTen}</p>
+                            </div>
+                            <div class="col-2">
+                                <p>${soDienThoai}</p>
+                            </div>
+                            <div class="col-2">
+                                <p>${ngayDat}</p>
+                            </div>
+                            <div class="col-3">
+                                <p>${email}</p>
+                            </div>
+                            <div class="col-2">
+                                <a href="#">${anhDaiDienName}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        // Đóng modal sau khi đặt hàng thành công
+        $('#modalDatMuaHoa').modal('hide');
+
+    }
+</script>
+
+<body>
+    <div class="container border border-2 border-danger p-2">
+        <nav class="navbar row">
+            <ul class="nav ">
+                <li class="nav-item"><a href="#" class="nav-link">TRANG CHU</a></li>
+                <li class="nav-item"><a href="#" class="nav-link" id="btnDatMuaHoa">DAT MUA HOA</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">CAY XANH VAN PHONG</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">TIN TUC</a></li>
+            </ul>
+            <img src="../IMG/thiet-ke-banner-dep-minh-duong-ads-17.jpg" alt="#">
+        </nav>
+
+        <header class="modal fade" id="modalDatMuaHoa">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <h5 class="text-center">THONG TIN DAT HANG NHANH</h5>
+                    </div>
+                    <div class="modal-body">
+                        <form class="orderform">
+                            <div class="mb-3">
+                                <label for="hoTen">Ho va Ten</label>
+                                <input type="text" class="form-control" id="hoTen" placeholder="Nhap ho ten" required>
+                                <small id="errorHoTen" class="form-text text-danger"></small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="soDienThoai">So Dien Thoai</label>
+                                <input type="tel" class="form-control" id="soDienThoai" placeholder="Nhap so dien thoai"
+                                    required>
+                                <small class="text-danger" id="errorSoDienThoai"></small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ngayDat">Ngay Dat</label>
+                                <input type="date" id="ngayDat" class="form-control" required>
+                                <small class="text-danger" id="errorNgayDat"></small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="Email cua ban"
+                                    required>
+                                <small class="text-danger" id="errorEmail"></small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="anhDaiDien">Anh Dai Dien</label>
+                                <input type="file" class="form-control" id="anhDaiDien" accept="image/*">
+                                <small class="text-danger" id="errorAnhDaiDien"></small>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-primary" onclick="datHang()">Dat Hang</button>
+                    </div>
+                </div>
+            </div>
+
+        </header>
+
+        <div class="row mt-1">
+            <div class="col-md-2 d-flex">
+                <img src="../IMG/chau1.jfif" alt="#" class="img-fluid">
+            </div>
+
+            <div class="col-md-8" id="mainContent">
+                <p>Main: Noi dung chinh</p>
+            </div>
+
+            <div class="col-md-2 d-flex">
+                <img src="../IMG/hinh2.webp" alt="#" class="img-fluid">
+            </div>
+        </div>
+
+        <footer class="text-center">
+            <p>MSSV:____________ Lop__________ Ho va Ten________</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
